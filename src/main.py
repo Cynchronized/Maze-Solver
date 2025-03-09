@@ -1,6 +1,4 @@
-from window import Window
-from point import Point
-from line import Line
+from graphics import Window
 from cell import Cell
 
 
@@ -19,9 +17,10 @@ c = Cell(win)
 c.has_bottom_wall = False
 c.draw(225, 225, 250, 250)
 
-c = Cell(win)
-c.has_top_wall = False
-c.draw(300, 300, 500, 500)
+c2 = Cell(win)
+c2.has_top_wall = False
+c2.draw(300, 300, 500, 500)
 
+c.draw_move(c2)
 
 win.wait_for_close()
