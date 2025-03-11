@@ -2,7 +2,7 @@ from graphics import Line, Point
 
 
 class Cell:
-    def __init__(self, win):
+    def __init__(self, win=None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -14,6 +14,7 @@ class Cell:
         self._y2 = 0
 
         self._win = win
+        self.visited = False
 
     # takes x/y cords of top-left corner and bottom-right corner of cell
     def draw(self, x1, y1, x2, y2):
@@ -28,21 +29,33 @@ class Cell:
         self._x2 = x2
         self._y2 = y2
 
-        if self.has_left_wall:
-            line = Line(Point(x1, y1), Point(x1, y2))
-            self._win.draw_line(line)
+        left_wall = Line(Point(x1, y1), Point(x1, y2))
+        right_wall = Line(Point(x2, y1), Point(x2, y2))
+        top_wall = Line(Point(x1, y1), Point(x2, y1))
+        bottom_wall = Line(Point(x1, y2), Point(x2, y2))
 
-        if self.has_right_wall:
-            line = Line(Point(x2, y1), Point(x2, y2))
-            self._win.draw_line(line)
+        # Black if wall is there, white if not
+        left_color = "black"
+        right_color = "black"
+        top_color = "black"
+        bottom_color = "black"
 
-        if self.has_top_wall:
-            line = Line(Point(x1, y1), Point(x2, y1))
-            self._win.draw_line(line)
+        if not self.has_left_wall:
+            left_color = "white"
 
-        if self.has_bottom_wall:
-            line = Line(Point(x1, y2), Point(x2, y2))
-            self._win.draw_line(line)
+        if not self.has_right_wall:
+            right_color = "white"
+
+        if not self.has_top_wall:
+            top_color = "white"
+
+        if not self.has_bottom_wall:
+            bottom_color = "white"
+
+        self._win.draw_line(left_wall, left_color)
+        self._win.draw_line(right_wall, right_color)
+        self._win.draw_line(top_wall, top_color)
+        self._win.draw_line(bottom_wall, bottom_color)
 
     def draw_move(self, to_cell, undo=False):
         x1, y1 = self.find_center()
